@@ -1,6 +1,3 @@
-const { __ } = wp.i18n;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, RangeControl } = wp.components;
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -20,8 +17,9 @@ import './style.scss';
 /**
  * Internal dependencies
  */
+import './style.scss';
+import './editor.scss';
 import Edit from './edit';
-import save from './save';
 import metadata from './block.json';
 
 /**
@@ -42,49 +40,14 @@ import metadata from './block.json';
 // } );
 
 
-registerBlockType('build/blocks/products-block', {
-    title: __('WooCommerce Products List'),
-    icon: 'grid-view',
-    category: 'widgets',
-    attributes: {
-        columns: {
-            type: 'number',
-            default: 3
-        }
-    },
+registerBlockType( metadata.name, {
+	/**
+	 * @see ./edit.js
+	 */
+	edit: Edit,
 
-    edit: (props) => {
-        const { attributes, setAttributes } = props;
-
-        return (
-            <>
-                <InspectorControls>
-                    <PanelBody title={__('Layout Settings')}>
-                        <RangeControl
-                            label={__('Columns')}
-                            value={attributes.columns}
-                            onChange={(columns) => setAttributes({ columns })}
-                            min={1}
-                            max={6}
-                        />
-                    </PanelBody>
-                </InspectorControls>
-                <div className="woo-products-block">
-                    <div className="products-grid" style={{
-                        gridTemplateColumns: `repeat(${attributes.columns}, 1fr)`
-                    }}>
-                        <div className="product-card placeholder">
-                            <div className="product-image"></div>
-                            <h3>Product Title</h3>
-                            <div className="price">$99.99</div>
-                        </div>
-                    </div>
-                </div>
-            </>
-        );
-    },
-
-    save: () => {
-        return null; // Dynamic block, render callback on server
-    }
-});
+	/**
+	 * @see ./save.js
+	 */
+	save,
+} );

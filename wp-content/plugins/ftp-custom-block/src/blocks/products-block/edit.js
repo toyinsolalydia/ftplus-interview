@@ -3,7 +3,6 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
-import { __ } from '@wordpress/i18n';
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -11,7 +10,10 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, RangeControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -29,13 +31,36 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
-	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Ftp Custom Block – hello from the editor!',
-				'ftp-custom-block'
-			) }
-		</p>
-	);
+export default function Edit({ attributes, setAttributes }) {
+    const blockProps = useBlockProps();
+    const { columns, productsToShow } = attributes;
+
+    return (
+        <>
+            <InspectorControls>
+                <PanelBody title={__('Layout Settings', 'ftp-custom-block')}>
+                    <RangeControl
+                        label={__('Columns', 'ftp-custom-block')}
+                        value={columns}
+                        onChange={(value) => setAttributes({ columns: value })}
+                        min={1}
+                        max={6}
+                    />
+                    <RangeControl
+                        label={__('Products to Show', 'ftp-custom-block')}
+                        value={productsToShow}
+                        onChange={(value) => setAttributes({ productsToShow: value })}
+                        min={1}
+                        max={24}
+                    />
+                </PanelBody>
+            </InspectorControls>
+            <div {...blockProps}>
+                <ServerSideRender
+                    block="ftp/products-block"
+                    attributes={attributes}
+                />
+            </div>
+        </>
+    );
 }

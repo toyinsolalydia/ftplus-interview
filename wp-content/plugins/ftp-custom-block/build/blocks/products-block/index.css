@@ -6,8 +6,15 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-create-block-ftp-custom-block {
-  border: 1px dotted #f00;
+.wp-block-ftp-products-block .products-grid {
+  opacity: 0.8;
+}
+.wp-block-ftp-products-block .products-grid.loading {
+  min-height: 200px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=index.css.map*/

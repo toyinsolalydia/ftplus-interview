@@ -7,70 +7,59 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.woo-products-block {
-  padding: 20px;
-}
-
-.products-grid {
+.wp-block-ftp-products-block .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 2rem;
 }
-
-.product-card {
+.wp-block-ftp-products-block .products-grid.columns-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.wp-block-ftp-products-block .products-grid.columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.wp-block-ftp-products-block .products-grid.columns-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.wp-block-ftp-products-block .products-grid.columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.wp-block-ftp-products-block .products-grid.columns-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.wp-block-ftp-products-block .products-grid.columns-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+@media (max-width: 768px) {
+  .wp-block-ftp-products-block .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 480px) {
+  .wp-block-ftp-products-block .products-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+.wp-block-ftp-products-block .product-card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 15px;
-  transition: transform 0.2s;
+  padding: 1rem;
+  transition: transform 0.2s ease;
 }
-
-.product-card:hover {
+.wp-block-ftp-products-block .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
-.product-card a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.product-card img {
+.wp-block-ftp-products-block .product-card img {
   width: 100%;
   height: auto;
   border-radius: 4px;
 }
-
-.product-card h3 {
-  margin: 10px 0;
+.wp-block-ftp-products-block .product-card h3 {
+  margin: 1rem 0;
   font-size: 1.1em;
   color: #333;
 }
-
-.product-card .price {
+.wp-block-ftp-products-block .product-card .price {
   color: #0066cc;
   font-weight: bold;
-}
-
-/* Editor Styles */
-.product-card.placeholder {
-  background: #f5f5f5;
-  min-height: 300px;
-}
-
-.product-card.placeholder .product-image {
-  background: #e0e0e0;
-  width: 100%;
-  height: 200px;
-  border-radius: 4px;
-}
-
-@media (max-width: 768px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 480px) {
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
 }
