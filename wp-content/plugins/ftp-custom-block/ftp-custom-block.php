@@ -38,6 +38,18 @@ function ftp_products_block_init() {
 }
 add_action('init', 'ftp_products_block_init');
 
+function ftp_enqueue_block_editor_assets() {
+    $asset_file = include(plugin_dir_path(__FILE__) . 'build/index.asset.php');
+    
+    wp_enqueue_script(
+        'ftp-products-block',
+        plugins_url('build/index.js', __FILE__),
+        $asset_file['dependencies'],
+        $asset_file['version']
+    );
+}
+add_action('enqueue_block_editor_assets', 'ftp_enqueue_block_editor_assets');
+
 function render_products_block($attributes) {
     $args = array(
         'post_type' => 'product',
