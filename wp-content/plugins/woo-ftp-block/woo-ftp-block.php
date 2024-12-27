@@ -18,46 +18,55 @@ if (!defined('ABSPATH')) {
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  */
+// 
+
 function create_woo_ftp_block_init() {
     // Register the block
-    register_block_type(__DIR__ . '/build/blocks/display-block');
-
-    // Register REST API endpoint for products
-    add_action('rest_api_init', function () {
-        register_rest_route('woo-ftp-block/v1', '/products', array(
-            'methods' => 'GET',
-            'callback' => 'get_woo_products',
-            'permission_callback' => '__return_true'
-        ));
-    });
+    register_block_type(__DIR__ . '/build/blocks/display-block', array(
+        'render_callback' => 'render_woo_products_block'
+    ));
 }
 add_action('init', 'create_woo_ftp_block_init');
 
-function get_woo_products() {
+function render_woo_products_block($attributes) {
     if (!class_exists('WooCommerce')) {
-        return new WP_Error('woocommerce_required', 'WooCommerce is not installed or activated', array('status' => 404));
+        return '<p>WooCommerce is required for this block.</p>';
     }
 
     $args = array(
-        'status' => 'publish',
-        'limit' => 10,
-        'orderby' => 'date',
-        'order' => 'DESC',
+        'post_type' => 'product',
+        'posts_per_page' => isset($attributes['numberOfProducts']) ? $attributes['numberOfProducts'] : 10,
+        'post_status' => 'publish'
     );
 
-    $products = wc_get_products($args);
-    $formatted_products = array();
-
-    foreach ($products as $product) {
-        $formatted_products[] = array(
-            'id' => $product->get_id(),
-            'name' => $product->get_name(),
-            'price' => $product->get_price_html(),
-            'link' => get_permalink($product->get_id())
-        );
+    $query = new WP_Query($args);
+    
+    if (!$query->have_posts()) {
+        return '<p>No products found.</p>';
     }
 
-    return rest_ensure_response($formatted_products);
+    $output = '<div class="wp-block-woo-ftp-block-display-block"><ul class="products-list">';
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $product = wc_get_product(get_the_ID());
+
+        $output .= sprintf(
+            '<li class="product-item"><h4><a href="%s">%s</a></h4>',
+            esc_url(get_permalink()),
+            esc_html($product->get_name())
+        );
+
+        if ($attributes['displayPrice']) {
+            $output .= sprintf('<div class="price">%s</div>', $product->get_price_html());
+        }
+
+        $output .= '</li>';
+    }
+
+    wp_reset_postdata();
+    $output .= '</ul></div>';
+    return $output;
 }
 
 
