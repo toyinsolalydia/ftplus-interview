@@ -29,29 +29,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 // }
 // add_action( 'init', 'create_block_ftp_custom_block_block_init' );
 
-function ftp_products_block_init() {
-    register_block_type(__DIR__ . '/build/blocks/products-block');
+if (!defined('ABSPATH')) {
+    exit;
 }
-add_action('init', 'ftp_products_block_init');
 
-function ftp_enqueue_block_editor_assets() {
-    $asset_file = include(plugin_dir_path(__FILE__) . 'build/index.asset.php');
-    
-    wp_enqueue_script(
-        'ftp-products-block',
-        plugins_url('build/index.js', __FILE__),
-        $asset_file['dependencies'],
-        $asset_file['version']
-    );
+function ftp_products_block_init() {
+    if (!class_exists('WooCommerce')) {
+        return;
+    }
+
+    // Check if block.json exists
+    $block_json = __DIR__ . '/build/blocks/products-block/block.json';
+    if (!file_exists($block_json)) {
+        return;
+    }
+
+    register_block_type($block_json, [
+        'render_callback' => 'render_products_block'
+    ]);
 }
-add_action('enqueue_block_editor_assets', 'ftp_enqueue_block_editor_assets');
+add_action('init', 'ftp_products_block_init', 20);
 
 function render_products_block($attributes) {
-    $args = array(
+    if (!function_exists('wc_get_products')) {
+        return 'WooCommerce is not active';
+    }
+
+    $args = [
         'post_type' => 'product',
-        'posts_per_page' => $attributes['productsToShow'],
+        'posts_per_page' => $attributes['productsToShow'] ?? 6,
         'post_status' => 'publish'
-    );
+    ];
 
     $products = wc_get_products($args);
     
@@ -59,7 +67,7 @@ function render_products_block($attributes) {
         return '<div class="wp-block-ftp-products-block">No products found.</div>';
     }
 
-    $columns = isset($attributes['columns']) ? $attributes['columns'] : 3;
+    $columns = $attributes['columns'] ?? 3;
     $output = sprintf(
         '<div class="wp-block-ftp-products-block"><div class="products-grid columns-%d">',
         $columns
@@ -68,11 +76,7 @@ function render_products_block($attributes) {
     foreach ($products as $product) {
         $output .= sprintf(
             '<div class="product-card">
-                <a href="%s">
-                    %s
-                    <h3>%s</h3>
-                    <div class="price">%s</div>
-                </a>
+                <a href="%s">%s<h3>%s</h3><div class="price">%s</div></a>
             </div>',
             esc_url($product->get_permalink()),
             $product->get_image('woocommerce_thumbnail'),
@@ -81,11 +85,13 @@ function render_products_block($attributes) {
         );
     }
     
-    $output .= '</div></div>';
-    
-    return $output;
+    return $output . '</div></div>';
 }
 
-register_block_type('ftp/products-block', array(
-    'render_callback' => 'render_products_block'
-));
+// Add WooCommerce block category
+add_filter('block_categories_all', function($categories) {
+    return array_merge($categories, [[
+        'slug'  => 'woocommerce',
+        'title' => 'WooCommerce'
+    ]]);
+});

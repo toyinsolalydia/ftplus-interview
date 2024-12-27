@@ -1,27 +1,16 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "create-block/ftp-custom-block",
+  "name": "ftp/products-block",
   "version": "0.1.0",
-  "title": "Ftp Custom Block",
-  "category": "widgets",
-  "icon": "products",
-  "description": "Woocommerce products display",
-  "example": {},
-  "supports": {
-    "html": false,
-    "align": true,
-    "alignWide": true,
-    "background": {
-      "backgroundImage": true,
-      "backgroundSize": true
-    },
-    "layout": true,
-    "className": true
-  },
+  "title": "WooCommerce Products Grid",
+  "category": "woocommerce",
+  "icon": "grid-view",
+  "description": "Display WooCommerce products in a grid layout",
   "textdomain": "ftp-custom-block",
   "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "viewScript": "file:./view.js"
+  "editorStyle": "file:./editor.scss",
+  "style": "file:./style.scss",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
 }
