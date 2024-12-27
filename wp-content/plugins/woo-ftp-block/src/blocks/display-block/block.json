@@ -1,18 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "create-block/ftproducts-block",
+	"name": "create-block/woo-ftp-block",
 	"version": "0.1.0",
-	"title": "Ftproducts Block",
+	"title": "Woo Ftp Block",
 	"category": "widgets",
-	"icon": "products",
-	"description": "Easily display products",
+	"icon": "smiley",
+	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
 	"supports": {
-		"html": false,
-		"layout": true
+		"html": false
 	},
-	"textdomain": "ftproducts-block",
+	"textdomain": "woo-ftp-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
