@@ -24,5 +24,16 @@
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "viewScript": [
+    "file:./view.js"
+  ],
+  "dependencies": [
+    "wp-blocks",
+    "wp-element",
+    "wp-editor",
+    "wp-components",
+    "wp-i18n",
+    "wp-server-side-render"
+  ]
 }
