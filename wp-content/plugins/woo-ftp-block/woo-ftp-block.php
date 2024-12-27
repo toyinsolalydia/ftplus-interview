@@ -21,52 +21,85 @@ if (!defined('ABSPATH')) {
 // 
 
 function create_woo_ftp_block_init() {
-    // Register the block
     register_block_type(__DIR__ . '/build/blocks/display-block', array(
         'render_callback' => 'render_woo_products_block'
     ));
+
+    // Register REST API endpoint
+    add_action('rest_api_init', function () {
+        register_rest_route('woo-ftp-block/v1', '/products', array(
+            'methods' => 'GET',
+            'callback' => 'get_woo_products',
+            'permission_callback' => '__return_true'
+        ));
+    });
 }
 add_action('init', 'create_woo_ftp_block_init');
+
+function get_woo_products() {
+    // Using WooCommerce REST API Controller
+    $controller = new WC_REST_Products_Controller();
+    $request = new WP_REST_Request('GET', '/wc/v3/products');
+    $request->set_query_params(array(
+        'per_page' => 10,
+        'status' => 'publish'
+    ));
+    
+    $response = $controller->get_items($request);
+    $products = array();
+    
+    if (!is_wp_error($response)) {
+        foreach ($response->get_data() as $product) {
+            $products[] = array(
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'price' => $product['price_html'],
+                'link' => $product['permalink']
+            );
+        }
+    }
+    
+    return rest_ensure_response($products);
+}
 
 function render_woo_products_block($attributes) {
     if (!class_exists('WooCommerce')) {
         return '<p>WooCommerce is required for this block.</p>';
     }
 
+    // Using WooCommerce hooks and functions
     $args = array(
-        'post_type' => 'product',
-        'posts_per_page' => isset($attributes['numberOfProducts']) ? $attributes['numberOfProducts'] : 10,
-        'post_status' => 'publish'
+        'status' => 'publish',
+        'limit' => isset($attributes['numberOfProducts']) ? $attributes['numberOfProducts'] : 10,
     );
 
-    $query = new WP_Query($args);
+    // Using wc_get_products hook
+    $products = apply_filters('woocommerce_products_block_query', wc_get_products($args));
     
-    if (!$query->have_posts()) {
+    if (empty($products)) {
         return '<p>No products found.</p>';
     }
 
     $output = '<div class="wp-block-woo-ftp-block-display-block"><ul class="products-list">';
 
-    while ($query->have_posts()) {
-        $query->the_post();
-        $product = wc_get_product(get_the_ID());
-
+    foreach ($products as $product) {
+        // Apply WooCommerce product filters
+        $product_name = apply_filters('woocommerce_product_title', $product->get_name(), $product);
+        $product_price = apply_filters('woocommerce_product_get_price_html', $product->get_price_html(), $product);
+        
         $output .= sprintf(
             '<li class="product-item"><h4><a href="%s">%s</a></h4>',
-            esc_url(get_permalink()),
-            esc_html($product->get_name())
+            esc_url($product->get_permalink()),
+            esc_html($product_name)
         );
 
         if ($attributes['displayPrice']) {
-            $output .= sprintf('<div class="price">%s</div>', $product->get_price_html());
+            $output .= sprintf('<div class="price">%s</div>', $product_price);
         }
 
         $output .= '</li>';
     }
 
-    wp_reset_postdata();
     $output .= '</ul></div>';
     return $output;
 }
-
-
