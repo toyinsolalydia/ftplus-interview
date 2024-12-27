@@ -26,7 +26,8 @@ import metadata from './block.json';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType('woo-ftp-block/display-block', {
+registerBlockType(metadata.name, {
+    ...metadata,
     edit: Edit,
-    save: () => null, // Dynamic block, rendered in PHP
+    save
 });

@@ -16,9 +16,12 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save() {
-	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Woo Ftp Block – hello from the saved content!' }
-		</p>
-	);
+    const blockProps = useBlockProps.save();
+    return (
+        <div {...blockProps}>
+            <div className="woo-ftp-products">
+                {/* Content will be rendered dynamically */}
+            </div>
+        </div>
+    );
 }
