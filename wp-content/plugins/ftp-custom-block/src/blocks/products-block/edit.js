@@ -37,6 +37,12 @@ export default function Edit({ attributes, setAttributes }) {
 
     return (
         <>
+		<div>
+			<p>This is a test</p>
+		</div>
+		const MY_TEMPLATE = [
+			["core/columns", {} ]
+		]
             <InspectorControls>
                 <PanelBody title={__('Layout Settings', 'ftp-custom-block')}>
                     <RangeControl

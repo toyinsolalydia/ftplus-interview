@@ -29,57 +29,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 // }
 // add_action( 'init', 'create_block_ftp_custom_block_block_init' );
 
-function ftp_custom_block_init() {
-	if (!class_exists('WooCommerce')) {
+function ftp_products_block_init() {
+    if (!class_exists('WooCommerce')) {
         return;
     }
-		register_block_type( __DIR__ . 'build/blocks/products-block', array(
-			'editor_script' => 'woo-products-block-editor',
-			'editor_style' => 'woo-products-block-editor',
-			'style' => 'woo-products-block',
-			'render_callback' => 'render_products_block'
-		) );
+
+    register_block_type(__DIR__ . '/build/blocks/products-block');
 }
-add_action( 'init', 'ftp_custom_block_init' );
-
-function ftp_custom_block_assets() {
-    // Editor Script
-    wp_register_script(
-        'woo-products-block-editor',
-        plugins_url('build/blocks/products-block/index.js', __FILE__),
-        array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n')
-    );
-
-    // Editor Style
-    wp_register_style(
-        'woo-products-block-editor',
-        plugins_url('build/blocks/products-block/editor.css', __FILE__),
-        array('wp-edit-blocks')
-    );	
-    // Frontend Style
-    wp_register_style(
-        'woo-products-block',
-        plugins_url('build/blocks/products-block/style.css', __FILE__),
-        array()
-    );
-}	
-
-add_action('init', 'ftp_custom_block_assets');
+add_action('init', 'ftp_products_block_init');
 
 function render_products_block($attributes) {
     $args = array(
         'post_type' => 'product',
-        'posts_per_page' => -1,
+        'posts_per_page' => $attributes['productsToShow'],
         'post_status' => 'publish'
     );
 
     $products = wc_get_products($args);
     
     if (empty($products)) {
-        return '<div class="woo-products-block">No products found.</div>';
+        return '<div class="wp-block-ftp-products-block">No products found.</div>';
     }
 
-    $output = '<div class="woo-products-block"><div class="products-grid">';
+    $columns = isset($attributes['columns']) ? $attributes['columns'] : 3;
+    $output = sprintf(
+        '<div class="wp-block-ftp-products-block"><div class="products-grid columns-%d">',
+        $columns
+    );
     
     foreach ($products as $product) {
         $output .= sprintf(
@@ -101,3 +77,7 @@ function render_products_block($attributes) {
     
     return $output;
 }
+
+register_block_type('ftp/products-block', array(
+    'render_callback' => 'render_products_block'
+));
