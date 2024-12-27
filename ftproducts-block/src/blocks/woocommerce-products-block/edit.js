@@ -30,14 +30,66 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-import metadata from '.block.json';
-export default function Edit(props) {
-	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Ftproducts Block – hello from the editor!',
-				'ftproducts-block'
-			) }
-		</p>
-	);
-}
+// import metadata from '.block.json';
+// export default function Edit(props) {
+// 	return (
+// 		<p { ...useBlockProps() }>
+// 			{ __(
+// 				'Ftproducts Block – hello from the editor!',
+// 				'ftproducts-block'
+// 			) }
+// 		</p>
+// 	);
+// }
+
+const { registerBlockType } = wp.blocks;
+const { __ } = wp.i18n;
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, RangeControl } = wp.components;
+
+registerBlockType('woo-products/product-list', {
+    title: __('WooCommerce Products List'),
+    icon: 'grid-view',
+    category: 'widgets',
+    attributes: {
+        columns: {
+            type: 'number',
+            default: 3
+        }
+    },
+
+    edit: (props) => {
+        const { attributes, setAttributes } = props;
+
+        return (
+            <>
+                <InspectorControls>
+                    <PanelBody title={__('Layout Settings')}>
+                        <RangeControl
+                            label={__('Columns')}
+                            value={attributes.columns}
+                            onChange={(columns) => setAttributes({ columns })}
+                            min={1}
+                            max={6}
+                        />
+                    </PanelBody>
+                </InspectorControls>
+                <div className="woo-products-block">
+                    <div className="products-grid" style={{
+                        gridTemplateColumns: `repeat(${attributes.columns}, 1fr)`
+                    }}>
+                        <div className="product-card placeholder">
+                            <div className="product-image"></div>
+                            <h3>Product Title</h3>
+                            <div className="price">$99.99</div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    },
+
+    save: () => {
+        return null; // Dynamic block, render callback on server
+    }
+});
