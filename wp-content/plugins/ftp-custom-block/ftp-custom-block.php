@@ -30,10 +30,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // add_action( 'init', 'create_block_ftp_custom_block_block_init' );
 
 function ftp_products_block_init() {
-    if (!class_exists('WooCommerce')) {
-        return;
-    }
-
     register_block_type(__DIR__ . '/build/blocks/products-block');
 }
 add_action('init', 'ftp_products_block_init');
