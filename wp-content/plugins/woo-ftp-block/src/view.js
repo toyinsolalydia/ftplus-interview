@@ -21,5 +21,10 @@
  */
 
 /* eslint-disable no-console */
-console.log( 'Hello World! (from create-block-woo-ftp-block block)' );
+// console.log( 'Hello World! (from create-block-woo-ftp-block block)' );
 /* eslint-enable no-console */
+
+// Add any frontend JavaScript functionality here if needed
+document.addEventListener('DOMContentLoaded', function() {
+    // Frontend initialization code
+});

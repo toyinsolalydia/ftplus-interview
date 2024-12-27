@@ -1,13 +1,1 @@
-/*!*************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/blocks/display-block/editor.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************/
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-.wp-block-create-block-woo-ftp-block {
-  border: 1px dotted #f00;
-}
-
-/*# sourceMappingURL=index.css.map*/
+.wp-block-woo-ftp-block-display-block .woo-ftp-products{border:1px dashed #ccc;padding:20px}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list{list-style:none;margin:0;padding:0}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item{border:1px solid #eee;border-radius:4px;margin-bottom:10px;padding:15px;transition:all .3s ease}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item:hover{box-shadow:0 2px 5px rgba(0,0,0,.1)}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item h4{font-size:16px;margin:0 0 10px}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item .price{color:#515151;font-weight:600}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item .price del{color:#999;margin-right:5px}.wp-block-woo-ftp-block-display-block .woo-ftp-products .products-list .product-item .price ins{color:#77a464;text-decoration:none}.wp-block-woo-ftp-block-display-block .woo-ftp-products .error{background-color:#f8d7da;border-left:4px solid #cc1818;color:#cc1818;padding:10px}

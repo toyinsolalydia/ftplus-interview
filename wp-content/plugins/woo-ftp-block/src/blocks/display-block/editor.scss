@@ -4,6 +4,54 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-woo-ftp-block {
-	border: 1px dotted #f00;
+ .wp-block-woo-ftp-block-display-block {
+    .woo-ftp-products {
+        padding: 20px;
+        border: 1px dashed #ccc;
+        
+        .products-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            
+            .product-item {
+                padding: 15px;
+                margin-bottom: 10px;
+                border: 1px solid #eee;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+                
+                &:hover {
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+                
+                h4 {
+                    margin: 0 0 10px 0;
+                    font-size: 16px;
+                }
+                
+                .price {
+                    color: #515151;
+                    font-weight: 600;
+                    
+                    del {
+                        color: #999;
+                        margin-right: 5px;
+                    }
+                    
+                    ins {
+                        text-decoration: none;
+                        color: #77a464;
+                    }
+                }
+            }
+        }
+        
+        .error {
+            color: #cc1818;
+            padding: 10px;
+            border-left: 4px solid #cc1818;
+            background-color: #f8d7da;
+        }
+    }
 }

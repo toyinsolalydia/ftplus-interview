@@ -1,19 +1,27 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "create-block/woo-ftp-block",
-	"version": "0.1.0",
-	"title": "Woo Ftp Block",
-	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
-	"example": {},
-	"supports": {
-		"html": false
-	},
-	"textdomain": "woo-ftp-block",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js"
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "woo-ftp-block/display-block",
+    "version": "1.0.0",
+    "title": "WooCommerce Products Display",
+    "category": "widgets",
+    "icon": "store",
+    "description": "Display a list of WooCommerce products.",
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "numberOfProducts": {
+            "type": "number",
+            "default": 10
+        },
+        "displayPrice": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "textdomain": "woo-ftp-block",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css"
 }

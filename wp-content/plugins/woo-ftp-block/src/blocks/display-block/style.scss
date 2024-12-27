@@ -5,8 +5,49 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-woo-ftp-block {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+ .wp-block-woo-ftp-block-display-block {
+    .products-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        
+        .product-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            h4 {
+                margin: 0 0 15px 0;
+                font-size: 18px;
+                color: #333;
+            }
+            
+            .price {
+                font-size: 16px;
+                color: #515151;
+                font-weight: 600;
+                
+                del {
+                    color: #999;
+                    margin-right: 8px;
+                }
+                
+                ins {
+                    text-decoration: none;
+                    color: #77a464;
+                }
+            }
+        }
+    }
 }
