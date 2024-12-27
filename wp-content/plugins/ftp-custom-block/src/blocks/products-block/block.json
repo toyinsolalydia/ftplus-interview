@@ -5,11 +5,20 @@
 	"version": "0.1.0",
 	"title": "Ftp Custom Block",
 	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+	"icon": "products",
+	"description": "Woocommerce products display",
 	"example": {},
 	"supports": {
-		"html": false
+		"html": false,
+		"align": true,
+		"alignWide": true,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true
+		},
+		"layout": true,
+		"className": true
+
 	},
 	"textdomain": "ftp-custom-block",
 	"editorScript": "file:./index.js",
